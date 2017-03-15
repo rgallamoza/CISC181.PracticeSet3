@@ -2,9 +2,13 @@ package pkgLibrary;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.Date;
 
 import javax.sql.rowset.spi.XmlReader;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
 
@@ -24,12 +28,35 @@ public class TestCatalog {
 	Catalog c1 = new Catalog();
 		
 	}*/
+	private static Catalog ReadXMLFile() {
+
+		Catalog cat = null;
+
+		String basePath = new File("").getAbsolutePath();
+		basePath = basePath + "\\src\\main\\resources\\XMLFiles\\Books.xml";
+		File file = new File(basePath);
+
+		System.out.println(file.getAbsolutePath());
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Catalog.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			cat = (Catalog) jaxbUnmarshaller.unmarshal(file);
+			System.out.println(cat);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		return cat;
+
+	}
 	
 	@Test
-	public void TestGetBook() {
+	public void TestGetBook() throws BookException {
 	
 	Catalog cat = ReadXMLFile();
-		
+	
+	assertEquals(Catalog.GetBook(cat,"bk101").equals(cat.getBooks().get(0)),true);
+	
 	}
 
 }
