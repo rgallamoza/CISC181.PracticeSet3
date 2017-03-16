@@ -115,7 +115,7 @@ public class TestCatalog {
 			e.printStackTrace();
 		}
 		
-		assertTrue(Catalog.GetBook(cat, "bk001") instanceof Book);
+		assertTrue(cat.getBooks().size()==original.getBooks().size()+1);
 		
 		try {
 
